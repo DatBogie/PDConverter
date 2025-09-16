@@ -248,7 +248,7 @@
     opacity: 0;
 }
 
-.tabpage > div > button {
+button, .div-button {
     border-radius: 50px;
     background-color: var(--crust);
     color: var(--text);
@@ -265,17 +265,17 @@
     position: relative;
 }
 
-.tabpage > div > button:hover:not(button:disabled) {
+button:hover:not(button:disabled), .div-button:hover:not(.div-button:disabled) {
     scale: 1.05;
     transition: scale 200ms ease, background-color 200ms ease;
     border-color: var(--accent);
 }
 
-.tabpage > div > button:active:not(button:disabled) {
+button:active:not(button:disabled), .div-button:active:not(.div-button:disabled) {
     scale: .95;
 }
 
-.tabpage > div > button:disabled {
+button:disabled, .div-button:disabled {
     background-color: var(--base);
     text-decoration: line-through;
 }
@@ -603,12 +603,45 @@ p {
 }
 
 .title, .subtext {
-    text-wrap: nowrap;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+    /* text-wrap: nowrap; */
+    /* white-space: nowrap; */
+    /* text-overflow: ellipsis; */
     width: 100%;
+    /* display: inline-block; */
+    /* overflow: hidden; */
+}
+
+.footnote-ind {
+    color: var(--yellow);
+}
+
+.dropdown {
+    display: block;
+}
+
+.dropdown > #box {
+    width: 100%;
+    height: 500%;
+    position: absolute;
+    top: 100%;
+    background-color: var(--mantle);
+    overflow-y: scroll;
+    left: 0;
+    border-radius: 25px;
+    display: flex;
+    flex-direction: column;
+    padding: 5%;
+}
+
+.dropdown > #box > button {
+    
+}
+
+.dropdown::after {
+    content: ">";
     display: inline-block;
-    overflow: hidden;
+    margin-left: .5rem;
+    transform: rotate(90deg);
 }
 
 #level-filter-popup {
@@ -817,43 +850,6 @@ code {
     font-family: monospace;
     font-size: 1rem;
     background-color: var(--crust);
-}
-
-.level-card div:has(> .div-button) {
-    display: flex;
-    justify-content: center;
-    gap: 7px;
-    padding-top: 7px;
-    min-height: 15px;
-    width: 100%;
-}
-
-.level-card .div-button {
-    pointer-events: all;
-    border-radius: 50px;
-    background-color: var(--base);
-    color: var(--text);
-    border-width: 2px;
-    border-style: solid;
-    border-color: #b7bdf800;
-    transition: scale 200ms ease, border-color 200ms ease, background-color 200ms ease;
-    font-size: 1.3rem;
-    padding-left: 3.5px;
-    padding-right: 3.5px;
-    text-align: center;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    /* width: 50%; */
-}
-
-.level-card .div-button:hover {
-    scale: 1.05;
-    transition: scale 200ms ease, background-color 200ms ease;
-    border-color: var(--accent);
-}
-
-.level-card .div-button:active {
-    scale: .95;
 }
 
 span > img, a > img {

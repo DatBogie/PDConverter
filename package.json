@@ -1,0 +1,12 @@
+{
+  "name": "pd-converter",
+  "version": "1.0.0",
+  "description": "Fully convert ADOFAI levels into Planets Dance levels!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "DatBogie",
+  "license": "ISC"
+}

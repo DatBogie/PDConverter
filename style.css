@@ -248,7 +248,15 @@
     opacity: 0;
 }
 
-button, .div-button {
+.div-button {
+    user-select: none;
+}
+
+.link {
+    user-select: none;
+}
+
+button.standard-button, .div-button {
     border-radius: 50px;
     background-color: var(--crust);
     color: var(--text);
@@ -265,13 +273,18 @@ button, .div-button {
     position: relative;
 }
 
-button:hover:not(button:disabled), .div-button:hover:not(.div-button:disabled) {
+button.standard-button:hover:not(button:disabled):not(.dropdown), .div-button:hover:not(.div-button:disabled):not(.dropdown) {
     scale: 1.05;
     transition: scale 200ms ease, background-color 200ms ease;
     border-color: var(--accent);
 }
 
-button:active:not(button:disabled), .div-button:active:not(.div-button:disabled) {
+.dropdown:hover {
+    transition: background-color 200ms ease;
+    border-color: var(--accent);
+}
+
+button.standard-button:active:not(button:disabled):not(.dropdown), .div-button:active:not(.div-button:disabled):not(.dropdown) {
     scale: .95;
 }
 
@@ -280,7 +293,7 @@ button:disabled, .div-button:disabled {
     text-decoration: line-through;
 }
 
-.tabpage > div > input {
+input {
     border-radius: 50px;
     background-color: var(--crust);
     color: var(--text);
@@ -314,7 +327,7 @@ button:disabled, .div-button:disabled {
     border-bottom-right-radius: 50px;
 }
 
-.tabpage > div > input:hover {
+input:hover {
     transition: scale 200ms ease, background-color 200ms ease;
     border-color: var(--accent);
 }
@@ -496,10 +509,10 @@ a, .link {
     border-color: #b7bdf800;
     background-color: #b7bdf800;
     border-radius: 50px;
+    text-decoration-line: underline;
     transition-property: border-color padding background-color;
     transition-duration: 200ms;
     transition-timing-function: ease;
-    text-decoration-line: underline;
 }
 
 a:hover, .link:hover {
@@ -510,6 +523,12 @@ a:hover, .link:hover {
 
 p {
     text-align: left;
+}
+
+.convert-span {
+    display: flex;
+    gap: 6px;
+    align-items: center;
 }
 
 .card-container {
@@ -616,11 +635,12 @@ p {
 }
 
 .dropdown {
-    display: block;
+    user-select: none;
+    width: max-content;
 }
 
 .dropdown > #box {
-    width: 100%;
+    width: 200px;
     height: 500%;
     position: absolute;
     top: 100%;
@@ -628,13 +648,16 @@ p {
     overflow-y: scroll;
     left: 0;
     border-radius: 25px;
-    display: flex;
+    display: none;
     flex-direction: column;
     padding: 5%;
+    gap: 2.5%;
 }
 
 .dropdown > #box > button {
-    
+    height: 20%;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .dropdown::after {
@@ -642,6 +665,15 @@ p {
     display: inline-block;
     margin-left: .5rem;
     transform: rotate(90deg);
+    transition: transform .3s ease;
+}
+
+.dropdown.active::after {
+    transform: rotate(270deg);
+}
+
+.dropdown > #text {
+    pointer-events: none;
 }
 
 #level-filter-popup {

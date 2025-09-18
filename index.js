@@ -1,3 +1,58 @@
+async function uploadAsset(API_KEY, rawFileContents, assetType, userId, assetName, mimeType) {
+    const url = "https://apis.roblox.com/assets/v1/assets";
+    const metadata = {
+        assetType: assetType,
+        creationContext: {
+            creator: {
+                userId: userId
+            }
+        },
+        displayName: assetName,
+        description: ""
+    };
+    const formData = new FormData();
+    formData.append("request", JSON.stringify(metadata));
+    formData.append("fileContent", new Blob([rawFileContents], { type: mimeType }), assetName);
+    const response = await fetch(url, {
+        method: "POST",
+        headers: {
+            "x-api-key": API_KEY
+        },
+        body: formData
+    });
+    
+    const result = await response.json();
+    if (!result.operationId) {
+        throw new Error("Upload failed: " + JSON.stringify(result));
+    }
+    console.log(result);
+    console.log("Upload started, operationId:",result.operationId);
+
+    const operationUrl = `https://apis.roblox.com/assets/v1/operations/${result.operationId}`;
+    let status;
+    let assetId;
+
+    do {
+        await new Promise(res=>setTimeout(res, 2000));
+        const opResp = await fetch(operationUrl, {
+            headers: {
+                "x-api-key": API_KEY
+            }
+        });
+        const opData = await opResp.json();
+        status = opData.status;
+
+        if (status === "Completed") {
+            assetId = opData.assetId;
+            console.log("Upload complete! Asset ID:",assetId);
+        } else if (status === "Failed") {
+            throw new Error("Upload failed: "+JSON.stringify(opData));
+        } else {
+            console.log("Upload pending...");
+        }
+    } while (status === "Pending");
+}
+
 var xVel = 0;
 var lastX = 0;
 
@@ -25,73 +80,6 @@ function embedOpen(url) {
     urlBar.textContent = url;
     const iframe = popup.querySelector("iframe");
     iframe.src = url;
-
-    if (url.indexOf("drive.usercontent.google") == -1) return;
-    const doc = (iframe.contentDocument || iframe.contentWindow.document);
-    const style = doc.createElement("style");
-    style.textContent =
-    `body {
-        background-color: #24273a;
-    }
-    div {
-        position: fixed;
-        width: 100vw;
-        height: 100vh;
-        background-color: #24273a;
-        color: #cad3f5;
-        margin-left: 2vw;
-        margin-right: 2vw;
-        margin-top: 2vh;
-        margin-bottom: 2vh;
-        font-size: 2rem;
-        font-family: "Nunito", serif;
-    }
-    span {
-        opacity: 0%;
-        transition: opacity 200ms ease;
-    }
-    p {
-        font-size: 1rem;
-    }`;
-    doc.head.appendChild(style);
-
-    const link0 = doc.createElement("link");
-    link0.textContent = `<link rel="preconnect" href="https://fonts.googleapis.com">`;
-    const link1 = doc.createElement("link");
-    link1.textContent = `<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>`;
-    const link2 = doc.createElement("link");
-    link2.textContent = `<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">`;
-
-    const div = doc.createElement("div");
-    div.id = "dl-loading";
-    div.innerHTML = `<i>Preparing your download</i><span id="1">.</span><span id="2">.</span><span id="3">.</span><br><p>Some levels take longer to download than others.<br>Please be patient!</p>`;
-    doc.body.appendChild(div);
-
-    const script = doc.createElement("script");
-    script.textContent =
-    `const a = document.getElementById("1");
-    const b = document.getElementById("2");
-    const c = document.getElementById("3");
-    var active = -1;
-    setInterval(()=>{
-        a.style.opacity = "100%";
-        setTimeout(()=>{
-            b.style.opacity = "100%"
-        },100);
-        setTimeout(()=>{
-            c.style.opacity = "100%"
-        },200);
-        setTimeout(()=>{
-            a.style.opacity = "0%";
-        },600);
-        setTimeout(()=>{
-            b.style.opacity = "0%";
-        },700);
-        setTimeout(()=>{
-            c.style.opacity = "0%";
-        },800);
-    },1200);`;
-    doc.body.appendChild(script);
 }
 
 function easeOutElastic(x) {
@@ -205,6 +193,14 @@ if (isMobile()) {
     cur.remove();
 }
 
+const LEVEL_INFO = {
+    levelNames: [], // ["main.adofai","level.adofai", etc.]
+    levelData: {},
+    levelImages: [],
+    levelSong: "",
+    files: {}
+}
+
 window.addEventListener("load",function() {
     clearInterval(intervalId);
     clearInterval(intervalId1);
@@ -287,6 +283,96 @@ window.addEventListener("load",function() {
             document.getElementById("tab."+selectedTab).style.display = "block";
             document.getElementById("tab."+selectedTab).style.animationName = "tabpage";
         });
+    });
+
+    function dropdownOptClicked(opt, dropdown) {
+        dropdown.querySelector("#text").textContent = opt.id;
+    }
+
+    function createOpt(optN, dropdown, menu) {
+        const opt = document.createElement("button");
+        if (optN !== "") {
+            opt.id = optN;
+            opt.textContent = optN;
+            opt.classList.add("standard-button");
+            opt.addEventListener("click",()=>{
+                dropdownOptClicked(opt,dropdown);
+            });
+        } else {
+            opt.style.display = "none";
+        }
+        menu.appendChild(opt);
+        return opt;
+    }
+
+    const dropdowns = document.querySelectorAll(".dropdown");
+    dropdowns.forEach(dropdown=>{
+        const menu = dropdown.querySelector("#box");
+        const options = JSON.parse(dropdown.dataset.options);
+        console.log(options);
+        dropdown.addEventListener("click",()=>{
+            if (menu.childElementCount < 2) return;
+            if (menu.style.display != "flex") {
+                menu.style.display = "flex";
+                dropdown.classList.add("active");
+            } else {
+                menu.style.display = "none";
+                dropdown.classList.remove("active");
+            }
+        });
+        options.forEach(optN=>{
+            createOpt(optN,dropdown,menu);
+        });
+        createOpt("",dropdown,menu);
+    });
+    document.body.addEventListener("click",(x)=>{
+        dropdowns.forEach(dropdown=>{
+            if (x.target != dropdown) {
+                const menu = dropdown.querySelector("#box");
+                menu.style.display = "none";
+                dropdown.classList.remove("active");
+            }
+        });
+    });
+
+    document.getElementById("folder").addEventListener("change",(event)=>{
+        const dropdown = document.getElementById("level-name");
+        const menu = dropdown.querySelector("#box");
+        menu.innerHTML = "";
+        dropdown.querySelector("#text").textContent = "";
+        const files = event.target.files;
+        Array.from(files).forEach(file=>{
+            if (file.name.toLowerCase().endsWith(".adofai")) {
+                const opt = createOpt(file.name,dropdown,menu);
+                opt.addEventListener("click",()=>{
+                    dropdownOptClicked(opt,dropdown);
+                });
+            }
+            const reader = new FileReader();
+            reader.onload = ()=>{
+                LEVEL_INFO.files[file.name] = reader.result;
+            }
+            if (!file.name.toLowerCase().endsWith(".adofai"))
+                reader.readAsArrayBuffer(file);
+            else
+                reader.readAsText(file);
+        });
+    });
+
+    const chooseLevelFile = document.getElementById("level-name");
+
+    document.getElementById("convert").addEventListener("click",()=>{
+        const levelFileName = chooseLevelFile.querySelector("#text").textContent;
+        const levelData = LEVEL_INFO.files[levelFileName];
+        if (!levelData) { alert("Invalid level!"); return };
+        navigator.clipboard.writeText(levelData);
+        alert("Copied ADOFAI level data to clipboard!");
+        const levelJSON = JSON.parse(levelData);
+        const songName = levelJSON.settings.songFilename;
+        const songData = LEVEL_INFO.files[songName];
+        const apiKey = document.getElementById("api-key").value;
+        const userid = document.getElementById("userid").value;
+        uploadAsset(apiKey,songData,"Audio",userid,songName,"audio/ogg");
     });
 });
 

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Dat Bogie</title>
+    <title>Planets Dance Converter</title>
     <link rel="icon" type="image/x-icon" href="./favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -39,26 +39,34 @@
             <h1>Converter</h1>
             <hr class="expanding-hr">
         </div>
-        <p>
-            <p>
-                <div>
-                    Choose ADOFAI Level Folder:
-                    <button>Upload Folder...</button>
+        <span>
+            <span class="convert-span">
+                Choose ADOFAI Level Folder:
+                
+                <label id="folder-link" for="folder" class="div-button">Choose Folder...</label>
+                <input type="file" id="folder" class="div-button" style="width: max-content; display: none;" webkitdirectory multiple>
+                <!-- <button style="margin-bottom: 0;" id="folder" class="standard-button">Choose Folder...</button> -->
+            </span><br>
+            <span class="convert-span">
+                Choose Level File:
+                <div id="level-name" data-options='[]' class="div-button dropdown">
+                    <div id="box"></div>
+                    <span id="text"></span>
                 </div>
-            </p>
-            <p>
-                <div>
-                    Choose .ADOFAI File:
-                    <div class="div-button dropdown">
-                        <div id="box">
-                            <button>1</button>
-                            <button>2</button>
-                        </div>
-                        main.adofai
-                    </div>
-                </div>
-            </p>
-        </p>
+            </span><br>
+            <span class="convert-span">
+                API Key:
+                <input style="width: auto; text-align: left;" id="api-key">
+                <button class="standard-button functional-link" data-href="https://youtube.com/embed/JDxrqeCNTGk">?</button>
+            </span><br>
+            <span class="convert-span">
+                User Id:
+                <input style="width: auto; text-align: left;" id="userid">
+            </span><br>
+            <span class="convert-span">
+                <button id="convert" class="standard-button">Convert</button>
+            </span>
+        </span>
         <hr class="expanding-hr">
     </div>
     <div class="display tabpage" id="tab.t-2">
@@ -68,7 +76,7 @@
         </div>
         <h2 style="margin-bottom: 0;">About</h2>
         <p style="margin-top: 0;">
-            Made by Dat Bogie <a href="https://github.com/DatBogie">(GitHub)</a> <span class="link" data-href="">(YouTube)</span>
+            Made by Dat Bogie <a href="https://github.com/DatBogie">(GitHub)</a> <a href="https://youtube.com/@datbogie">(YouTube)</a>
         </p>
         <h2 style="margin-bottom: 0;">About This Site</h2>
         <p style="margin-top: 0;">

@@ -374,6 +374,18 @@ window.addEventListener("load",function() {
         const userid = document.getElementById("userid").value;
         uploadAsset(apiKey,songData,"Audio",userid,songName,"audio/ogg");
     });
+
+    document.querySelectorAll(".copy-code").forEach((btn)=>{
+        const code = btn.parentElement.querySelector("code");
+        btn.addEventListener("click",()=>{
+            navigator.clipboard.writeText(code.textContent).then(()=>{
+                btn.textContent = "Copied!";
+                setTimeout(()=>{
+                    btn.textContent = "Copy";
+                },500);
+            });
+        });
+    });
 });
 
 if (!isMobile()) {

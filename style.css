@@ -879,11 +879,56 @@ p {
 }
 
 code {
-    font-family: monospace;
+    font-family: monospace, monospace !important;
     font-size: 1rem;
     background-color: var(--crust);
+    padding-left: 4px;
+    padding-right: 4px;
+    border-radius: 50px;
+}
+
+.copy-code, .copy-data {
+    border-radius: 50px;
+    background-color: var(--crust);
+    color: var(--text);
+    border-width: 2px;
+    border-style: solid;
+    border-color: #b7bdf800;
+    transition: scale 200ms ease, border-color 200ms ease, background-color 200ms ease;
+}
+
+.copy-code:hover, .copy-data:hover {
+    scale: 1.05;
+    transition: scale 200ms ease, background-color 200ms ease;
+    border-color: var(--accent);
+}
+
+.copy-code:active, .copy-data:active {
+    scale: .95;
+}
+
+.small {
+    font-size: 1.25rem;
 }
 
 span > img, a > img {
     vertical-align: middle;
+}
+
+details {
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border-radius: 25px;
+    transition: background-color 200ms ease, padding 200ms ease;
+}
+
+details:open {
+    background-color: var(--crust);
+    padding-bottom: 1px;
+}
+
+.details {
+    padding-top: 10px;
 }

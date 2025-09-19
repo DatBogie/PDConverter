@@ -44,19 +44,19 @@
             <ul>
                 <li><a href="https://github.com/datbogie/PDConverterPy/releases/latest">Latest Release (GitHub)</a></li>
                 <li>
+                    Build from Source
                     <details>
-                        <summary><b>Build from Source</b></summary>
+                        <summary><b>build.py</b></summary>
                         <div class="details">
-                            <span class="title">build.py</span>
                             <ul class="top">
                                 <span class="small">
                                     <p>
-                                        Clone repo:<br>
+                                        <b>Clone repo:</b><br>
                                         <code style="background-color: var(--base);">git clone https://github.com/DatBogie/PDConverterPy.git; cd PDConverterPy</code>
                                         <button class="copy-code">Copy</button>
                                     </p>
                                     <p>
-                                        Build:<br>
+                                        <b>Build:</b><br>
                                         <span>
                                             Linux/macOS:
                                             <code style="background-color: var(--base);">python3 build.py</code>
@@ -66,6 +66,128 @@
                                         <span>
                                             Windows:
                                             <code style="background-color: var(--base);">py build.py</code>
+                                            <button class="copy-code">Copy</button>
+                                        </span>
+                                    </p>
+                                </span>
+                            </ul>
+                        </div>
+                    </details>
+                    <details>
+                        <summary><b>Manual Build (Scripts)</b></summary>
+                        <div class="details">
+                            <ul class="top">
+                                <span class="small">
+                                    <p>
+                                        <b>Clone repo:</b><br>
+                                        <code style="background-color: var(--base);">git clone https://github.com/DatBogie/PDConverterPy.git; cd PDConverterPy</code>
+                                        <button class="copy-code">Copy</button>
+                                    </p>
+                                    <p>
+                                        <b>Build:</b><br>
+                                        <span>
+                                            Linux:
+                                            <code style="background-color: var(--base);">./scripts/build-lin.sh</code>
+                                            <button class="copy-code">Copy</button>
+                                        </span>
+                                        <br>
+                                        <span>
+                                            macOS:
+                                            <code style="background-color: var(--base);">./scripts/build-mac.sh</code>
+                                            <button class="copy-code">Copy</button>
+                                        </span>
+                                        <br>
+                                        <span>
+                                            Windows:
+                                            <code style="background-color: var(--base);">.\scripts\build-win.bat</code>
+                                            <button class="copy-code">Copy</button>
+                                        </span>
+                                    </p>
+                                    <p>
+                                        <b>Install (Optional):</b><br>
+                                        <span>
+                                            Linux:
+                                            <code style="background-color: var(--base);">./scripts/install-lin.sh</code>
+                                            <button class="copy-code">Copy</button>
+                                        </span>
+                                        <br>
+                                        <span>
+                                            macOS:
+                                            <code style="background-color: var(--base);">./scripts/install-mac.sh</code>
+                                            <button class="copy-code">Copy</button>
+                                        </span>
+                                        <br>
+                                        <span>
+                                            Windows:
+                                            <code style="background-color: var(--base);">.\scripts\install-win.bat</code>
+                                            <button class="copy-code">Copy</button>
+                                        </span>
+                                    </p>
+                                </span>
+                            </ul>
+                        </div>
+                    </details>
+                    <details>
+                        <summary><b>Manual Build</b></summary>
+                        <div class="details">
+                            <ul class="top">
+                                <span class="small">
+                                    <p>
+                                        <b>Clone repo:</b><br>
+                                        <code style="background-color: var(--base);">git clone https://github.com/DatBogie/PDConverterPy.git; cd PDConverterPy</code>
+                                        <button class="copy-code">Copy</button>
+                                    </p>
+                                    <p>
+                                        <b>Setup venv:</b><br>
+                                        <span>
+                                            Linux/macOS:
+                                            <code style="background-color: var(--base);">python3 -m venv .venv && source .venv/bin/activate && pip3 install -r requirements.txt</code>
+                                            <button class="copy-code">Copy</button>
+                                        </span>
+                                        <br>
+                                        <span>
+                                            Windows:
+                                            <code style="background-color: var(--base);">py -m venv .venv; .\.venv\Scripts\activate.bat; pip install -r requirements.txt</code>
+                                            <button class="copy-code">Copy</button>
+                                        </span>
+                                    </p>
+                                    <p>
+                                        <b>Build:</b><br>
+                                        <span>
+                                            Linux:
+                                            <code style="background-color: var(--base);">pyinstaller main.py -n "PDConverter" --onefile --noconfirm</code>
+                                            <button class="copy-code">Copy</button>
+                                        </span>
+                                        <br>
+                                        <span>
+                                            macOS:
+                                            <code style="background-color: var(--base);">pyinstaller main.py -n "PDConverter" -w --noconfirm</code>
+                                            <button class="copy-code">Copy</button>
+                                        </span>
+                                        <br>
+                                        <span>
+                                            Windows:
+                                            <code style="background-color: var(--base);">pyinstaller main.py -n "PDConverter" -w --onefile --noconfirm</code>
+                                            <button class="copy-code">Copy</button>
+                                        </span>
+                                    </p>
+                                    <p>
+                                        <b>Install (Optional):</b><br>
+                                        <span>
+                                            Linux:
+                                            <code style="background-color: var(--base);">./scripts/install-lin.sh</code>
+                                            <button class="copy-code">Copy</button>
+                                        </span>
+                                        <br>
+                                        <span>
+                                            macOS:
+                                            <code style="background-color: var(--base);">./scripts/install-mac.sh</code>
+                                            <button class="copy-code">Copy</button>
+                                        </span>
+                                        <br>
+                                        <span>
+                                            Windows:
+                                            <code style="background-color: var(--base);">.\scripts\install-win.bat</code>
                                             <button class="copy-code">Copy</button>
                                         </span>
                                     </p>
